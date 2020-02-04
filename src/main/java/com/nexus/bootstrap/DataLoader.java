@@ -6,18 +6,21 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexus.persistence.entity.User;
 import com.nexus.persistence.repo.UserRepo;
 
-import lombok.extern.slf4j.Slf4j;
+@Configuration
 
-@Slf4j
 public class DataLoader {
 
+    private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
 	@Autowired
 	private UserRepo userRepo;
@@ -29,10 +32,11 @@ public class DataLoader {
 		InputStream inputStream = TypeReference.class.getResourceAsStream("/bootstrap.json");
 		try {
 			List<User> users = mapper.readValue(inputStream, typeReference);
+			logger.info("Saving users...");
 			userRepo.saveAll(users);
-			System.out.println("Users Saved!");
+			logger.info("Users Saved...");
 		} catch (IOException e) {
-			System.out.println("Unable to save users: " + e.getMessage());
+			logger.error("Unable to save users: " + e.getMessage());
 		}
 
 	}
