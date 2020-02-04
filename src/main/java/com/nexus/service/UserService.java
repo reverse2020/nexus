@@ -37,4 +37,31 @@ public class UserService {
 				.collect(Collectors.toList());
 	
 	}
+
+	public List<User> getActiveUsers() {
+		return userRepo
+				.findAll()
+				.stream()
+				.parallel()
+				.filter(user -> user.getIsActive())
+				.collect(Collectors.toList());
+	}
+	
+	public List<User> getInActiveUsers() {
+		return userRepo
+				.findAll()
+				.stream()
+				.parallel()
+				.filter(user -> !user.getIsActive())
+				.collect(Collectors.toList());
+	}
+
+	public List<User> getFemaleUsers() {
+		return userRepo
+				.findAll()
+				.stream()
+				.parallel()
+				.filter(user -> user.getGender().equalsIgnoreCase("female"))
+				.collect(Collectors.toList());
+	}
 }

@@ -28,4 +28,19 @@ public class UserController {
 	public List<User> getHighBalanceUsers(){
 		return userService.getHighBalanceUsers();
 	}
+	
+	@GetMapping("/users/active")
+	public List<User> getActiveUsers(){
+		return userService.getActiveUsers();
+	}
+	
+	@GetMapping("/users/inactive")
+	public List<User> getInActiveUsers(){
+		return userService.getInActiveUsers();
+	}
+	
+	@GetMapping("/users/females")
+	public List<User> getFemaleUsers(){
+		return userService.getFemaleUsers();
+	}
 }
