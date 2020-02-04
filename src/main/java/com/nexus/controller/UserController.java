@@ -23,4 +23,9 @@ public class UserController {
 	public List<User> getAllUsers(){
 		return userService.getAllUsers();
 	}
+	
+	@GetMapping("/users/highbalance")
+	public List<User> getHighBalanceUsers(){
+		return userService.getHighBalanceUsers();
+	}
 }

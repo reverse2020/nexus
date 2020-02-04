@@ -1,6 +1,8 @@
 package com.nexus.service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,16 @@ public class UserService {
 	public void saveAllUsers(List<User> list){
 		userRepo.saveAll(list);
 	}
-}
 
+	public List<User> getHighBalanceUsers() {
+		
+		return userRepo
+				.findAll()
+				.stream()
+				.parallel()
+				.filter(user -> user.getBalance() >4000)
+				.sorted(Comparator.comparingDouble(User::getBalance))
+				.collect(Collectors.toList());
+	
+	}
+}
