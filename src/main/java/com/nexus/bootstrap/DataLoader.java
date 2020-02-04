@@ -16,11 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexus.persistence.entity.User;
 import com.nexus.persistence.repo.UserRepo;
 
-@Configuration
+import lombok.extern.slf4j.Slf4j;
 
+@Configuration
+@Slf4j
 public class DataLoader {
 
-    private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
 	@Autowired
 	private UserRepo userRepo;
@@ -32,11 +33,11 @@ public class DataLoader {
 		InputStream inputStream = TypeReference.class.getResourceAsStream("/bootstrap.json");
 		try {
 			List<User> users = mapper.readValue(inputStream, typeReference);
-			logger.info("Saving users...");
+			log.info("Saving users...");
 			userRepo.saveAll(users);
-			logger.info("Users Saved...");
+			log.info(users.size() + " Users Saved...");
 		} catch (IOException e) {
-			logger.error("Unable to save users: " + e.getMessage());
+			log.error("Unable to save users: " + e.getMessage());
 		}
 
 	}
