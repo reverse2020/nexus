@@ -6,15 +6,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexus.persistence.entity.User;
-import com.nexus.persistence.repo.UserRepo;
+import com.nexus.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +22,7 @@ public class DataLoader {
 
 
 	@Autowired
-	private UserRepo userRepo;
+	private UserService userService;
 
 	@PostConstruct
 	private void loadUsers() {
@@ -34,7 +32,7 @@ public class DataLoader {
 		try {
 			List<User> users = mapper.readValue(inputStream, typeReference);
 			log.info("Saving users...");
-			userRepo.saveAll(users);
+			userService.saveAllUsers(users);
 			log.info(users.size() + " Users Saved...");
 		} catch (IOException e) {
 			log.error("Unable to save users: " + e.getMessage());
